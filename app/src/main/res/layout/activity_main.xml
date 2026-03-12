@@ -6,68 +6,93 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5"
+    tools:context=".MainActivity">
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Zaopatrzenie"
-        android:layout_margin="10dp"
-        android:padding="10dp"
         android:gravity="center"
-        android:textSize="20sp"
-        />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#2E3A59"
+        android:layout_marginBottom="16dp" />
+
 
     <EditText
         android:id="@+id/itemNameEditText"
-        android:hint="Nazwa produktu zaopatrzenia"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="Nazwa produktu"
+        android:padding="12dp"
+        android:background="@drawable/edittext_bg"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:layout_marginBottom="12dp"/>
+
 
     <Spinner
         android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        android:padding="8dp"
+        android:background="@drawable/spinner_bg"
+        android:layout_marginBottom="16dp" />
+
 
     <TextView
         android:id="@+id/quantityText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ilość: "
-        android:layout_margin="10dp"
-        android:textSize="16sp"/>
+        android:text="Ilość: 0"
+        android:textSize="16sp"
+        android:textColor="#555555"
+        android:layout_marginBottom="8dp"/>
 
     <SeekBar
         android:id="@+id/quantitySeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="20"/>
+        android:max="20"
+        android:progress="0"
+        android:thumbTint="#FF4081"
+        android:progressTint="#FF80AB"
+        android:layout_marginBottom="16dp"/>
+
 
     <Button
         android:id="@+id/addItemButton"
-        android:text="Dodaj produkt do magazynu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:text="Dodaj produkt"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp"
+        />
 
     <Button
         android:id="@+id/saveButton"
-        android:text="Zapisz produkty w magazynie"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:text="Zapisz produkty"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF"
+        android:padding="12dp"
         />
 
 
     <ListView
         android:id="@+id/listViewItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="8dp"
         android:layout_marginTop="24dp"
-        android:dividerHeight="8dp" />
-
-
+        android:paddingBottom="16dp"/>
 
 </LinearLayout>

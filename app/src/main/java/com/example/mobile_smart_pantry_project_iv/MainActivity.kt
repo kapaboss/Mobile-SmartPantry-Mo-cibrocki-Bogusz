@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                 listAdapter.notifyDataSetChanged()
 
                 saveItemsToJsonFile()
+                highlightLowQuantityItems()
             }
         }
     }
@@ -160,6 +161,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        highlightLowQuantityItems()
+
     }
 
     private fun saveItemsToJsonFile(){
@@ -215,6 +218,19 @@ class MainActivity : AppCompatActivity() {
             ).show()
             e.printStackTrace()
         }
+    }
+
+    private fun highlightLowQuantityItems() {
+        for (i in itemList.indices) {
+            val item = itemList[i]
+
+            items[i] = if (item.Quantity < 5) {
+                "⚠ ID:${item.UUID} - ${item.Name} - ${item.Quantity} - ${item.Category} (Mało!)"
+            } else {
+                "ID:${item.UUID} - ${item.Name} - ${item.Quantity} - ${item.Category}"
+            }
+        }
+        listAdapter.notifyDataSetChanged()
     }
 
 
