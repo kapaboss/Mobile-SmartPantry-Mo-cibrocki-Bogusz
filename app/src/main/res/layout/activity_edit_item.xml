@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditItemActivity"
+    android:orientation="vertical"
+    android:padding="36dp"
+    android:gravity="center_horizontal|center_vertical"
+    android:background="#C1F0F8">
+
+    <EditText
+        android:id="@+id/itemNameUpdateEditText"
+        android:hint="Nazwa produktu zaopatrzenia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/categoryUpdateSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/quantityUpdateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ilość: "
+        android:layout_margin="10dp"
+        android:textSize="16sp"/>
+
+    <SeekBar
+        android:id="@+id/quantityUpdateSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="20"/>
+
+    <Button
+        android:id="@+id/saveChangesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#123123"
+        android:layout_margin="20dp"
+        android:text="Zapisz zmiany"/>
+
+</LinearLayout>

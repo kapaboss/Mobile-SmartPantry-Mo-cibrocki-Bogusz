@@ -1,9 +1,13 @@
 package com.example.mobile_smart_pantry_project_iv
 
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -26,6 +30,31 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var listAdapter: ArrayAdapter<String>
 
+    private val editItemLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            val updatedItem = if (Build.VERSION.SDK_INT >= 33) {
+                data?.getSerializableExtra("UPDATED_ITEM", Item::class.java)
+            }else{
+
+                @Suppress("DEPRECATION")
+                data?.getSerializableExtra("UPDATED_ITEM") as? Item
+            }
+            val position = data?.getIntExtra("POSITION", -1) ?: -1
+
+            if(updatedItem != null && position != -1) {
+                itemList[position] = updatedItem
+
+                items[position] = "ID:${updatedItem.UUID} - ${updatedItem.Name} - ${updatedItem.Quantity} - ${updatedItem.Category}"
+
+                listAdapter.notifyDataSetChanged()
+
+                saveItemsToJsonFile()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,7 +66,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val categories = listOf("Food", "Tool", "Equipment")
+        binding.listViewItems.setOnItemClickListener { _, _, position, _ ->
+
+            val selectedItem = itemList[position]
+
+            val intent = Intent(this, EditItemActivity::class.java)
+
+            intent.putExtra("EXTRA_ITEM", selectedItem)
+            intent.putExtra("EXTRA_POSITION", position)
+
+            editItemLauncher.launch(intent)
+        }
+
+        val categories = resources.getStringArray(R.array.item_categories)
 
         val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -100,6 +141,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadItemsFromJsonFile()
+
+        binding.listViewItems.setOnItemLongClickListener {_,_, position, _ ->
+            itemList.removeAt(position)
+            items.removeAt(position)
+
+
+            listAdapter.notifyDataSetChanged()
+
+            saveItemsToJsonFile()
+
+            Toast.makeText(
+                this,
+                "Usunięto Element",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            true
+        }
 
     }
 

@@ -8,4 +8,4 @@ data class Item(
     val Name: String,
     val Quantity: Int,
     val Category: String,
-)
+) : java.io.Serializable
