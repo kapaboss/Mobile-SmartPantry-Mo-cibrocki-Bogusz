@@ -31,11 +31,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp" />
 
-    <NumberPicker
-        android:id="@+id/quantityNumberPicker"
+    <TextView
+        android:id="@+id/quantityText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"/>
+        android:text="Ilość: "
+        android:layout_margin="10dp"
+        android:textSize="16sp"/>
+
+    <SeekBar
+        android:id="@+id/quantitySeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="20"/>
 
     <Button
         android:id="@+id/addItemButton"
@@ -43,6 +51,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp" />
+
+
+    <ListView
+        android:id="@+id/listViewItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:dividerHeight="8dp" />
 
 
 

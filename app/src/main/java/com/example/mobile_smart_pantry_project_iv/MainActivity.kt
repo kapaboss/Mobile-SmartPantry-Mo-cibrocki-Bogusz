@@ -35,10 +35,30 @@ class MainActivity : AppCompatActivity() {
 
         binding.categorySpinner.adapter = categoryAdapter
 
+        binding.quantitySeekBar.setOnSeekBarChangeListener(object :
+            android.widget.SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.quantityText.text = "Ilość: $progress"
+            }
+
+            override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
+        })
+
+        val items = mutableListOf<String>()
+        val listAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            items
+        )
+        binding.listViewItems.adapter = listAdapter
+
         binding.addItemButton.setOnClickListener {
             val name = binding.itemNameEditText.text.toString()
             val category = binding.categorySpinner.selectedItem.toString()
-            val quantity = binding.quantityNumberPicker.value.toInt()
+            val quantity = binding.quantitySeekBar.progress
 
             if(name.isNotBlank()&&category.isNotBlank()&&quantity!=0) {
 
@@ -47,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                 )
                 itemList.add(newItem)
 
+                items.add("${newItem.UUID} - ${newItem.Name} - ${newItem.Quantity} - ${newItem.Category}")
+                listAdapter.notifyDataSetChanged()
+
                 Toast.makeText(
                     this,
                     "Dodano: $name",
@@ -54,7 +77,8 @@ class MainActivity : AppCompatActivity() {
 
                 binding.itemNameEditText.text.clear()
                 binding.categorySpinner.setSelection(0)
-                binding.quantityNumberPicker.value=0
+                binding.quantitySeekBar.progress = 0
+                binding.quantityText.text = "Ilość: 0"
             } else {
                 Toast.makeText(this, "Uzupełnij informacje", Toast.LENGTH_SHORT).show()
             }
