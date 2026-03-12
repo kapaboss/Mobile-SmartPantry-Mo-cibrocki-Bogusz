@@ -9,9 +9,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.mobile_smart_pantry_project_iv.databinding.ActivityMainBinding
 import data.Item
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.File
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+
+
 
     lateinit var binding: ActivityMainBinding
 
@@ -67,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 itemList.add(newItem)
 
-                items.add("${newItem.UUID} - ${newItem.Name} - ${newItem.Quantity} - ${newItem.Category}")
+                items.add(" ID:${newItem.UUID} - ${newItem.Name} - ${newItem.Quantity} - ${newItem.Category}")
                 listAdapter.notifyDataSetChanged()
 
                 Toast.makeText(
@@ -85,5 +90,37 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
+        binding.saveButton.setOnClickListener {
+            saveItemsToJsonFile()
+        }
+
     }
+
+    private fun saveItemsToJsonFile(){
+        try {
+            val json = Json {prettyPrint = true}
+            val jsonString = json.encodeToString(itemList)
+
+            val file = File(filesDir, "items.json")
+            file.writeText(jsonString)
+
+            Toast.makeText(
+                this,
+                "Zapisano ${itemList.size} przedmiotów do magazynu",
+                Toast.LENGTH_SHORT
+            ).show()
+        }catch (e: Exception){
+
+            Toast.makeText(
+                this,
+                "Błąd zapisu pliku!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            e.printStackTrace()
+        }
+    }
+
+
 }
