@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     val itemList = mutableListOf<Item>()
 
+    val items = mutableListOf<String>()
+
+    lateinit var listAdapter: ArrayAdapter<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -52,8 +56,8 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
         })
 
-        val items = mutableListOf<String>()
-        val listAdapter = ArrayAdapter(
+
+        listAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
             items
@@ -95,6 +99,8 @@ class MainActivity : AppCompatActivity() {
             saveItemsToJsonFile()
         }
 
+        loadItemsFromJsonFile()
+
     }
 
     private fun saveItemsToJsonFile(){
@@ -118,6 +124,36 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
 
+            e.printStackTrace()
+        }
+    }
+
+    private fun loadItemsFromJsonFile() {
+
+        try {
+            val file = File(filesDir, "items.json")
+            if (!file.exists()) return
+
+            val jsonString = file.readText()
+            val json = Json {ignoreUnknownKeys = true}
+            val loadedList = json.decodeFromString<List<Item>>(jsonString)
+
+            itemList.clear()
+            itemList.addAll(loadedList)
+
+            items.clear()
+            items.addAll(
+                itemList.map {
+                    "ID:${it.UUID} ${it.Name} (${it.Category}) Ilość: ${it.Quantity}"
+                }
+            )
+            listAdapter.notifyDataSetChanged()
+        }catch (e: java.lang.Exception) {
+            Toast.makeText(
+                this,
+                "Błąd odczytu pliku!",
+                Toast.LENGTH_SHORT
+            ).show()
             e.printStackTrace()
         }
     }
